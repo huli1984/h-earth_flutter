@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:albanianews_flutter/landingPage.dart';
 
 class Destination {
   const Destination(this.title, this.icon, this.image_icon, this.color, this.rgbColor);
@@ -73,7 +74,7 @@ class _DestinationViewState extends State<DestinationView> {
       body: Container(
         padding: const EdgeInsets.all(32.0),
         alignment: Alignment.center,
-        child: TextField(controller: _textController),
+        child: LandingPage(),//TextField(controller: _textController),
       ),
     );
   }

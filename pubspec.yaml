@@ -24,6 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
   wordpress_api: ^0.2.1+1
+  flutter_wordpress: ^0.2.0
+  flutter_html: ^1.1.0
+  url_launcher: ^6.0.0-nullsafety.1
 
 
   # The following adds the Cupertino Icons font to your application.
