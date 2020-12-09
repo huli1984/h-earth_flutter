@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:albanianews_flutter/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wordpress/flutter_wordpress.dart' as wp;
@@ -5,107 +7,61 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wordpress_api/wordpress_api.dart';
 import 'package:albanianews_flutter/routing.dart';
+import 'package:http/http.dart' as http;
+import 'package:albanianews_flutter/post.dart';
+import 'package:albanianews_flutter/PostCard.dart';
 
+class LandingPage extends StatefulWidget {
+  @override
+  _LandingPageState createState() => _LandingPageState();
+}
 
-class LandingPage extends StatelessWidget {
+class _LandingPageState extends State<LandingPage> {
+  String url = "https://h-earth.it/?rest_route=/wp/v2/posts&?_embed";
+  bool isLoading = false;
+  List<Post> posts = List();
 
-  wp.WordPress wordPress = wp.WordPress(
-    baseUrl: 'https://h-earth.it',
-  );
-
-  _fetchPosts() {
-    Future<List<wp.Post>> posts = wordPress.fetchPosts(
-        postParams: wp.ParamsPostList(
-          context: wp.WordPressContext.view,
-          pageNum: 1,
-          perPage: 10,
-        ),
-        fetchAuthor: true,
-        fetchFeaturedMedia: true,
-        fetchComments: true
-    );
-
-    return posts;
+  @override
+  void initState() {
+    _fetchPosts();
+    super.initState();
   }
 
-  _getPostImage(wp.Post post) {
-    if (post.featuredMedia == null) {
-      return SizedBox();
+  Future<void> _fetchPosts() async {
+    setState(() {
+      isLoading = true;
+    });
+    final response = await http.get(this.url);
+    if (response.statusCode == 200) {
+      posts = (json.decode(response.body) as List).map((data) {
+        return Post.fromJSON(data);
+      }).toList();
+      setState(() {
+        isLoading = false;
+      });
     }
-    return Image.network(post.featuredMedia.sourceUrl);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: FutureBuilder(
-          future: _fetchPosts(),
-          builder: (BuildContext context, AsyncSnapshot<List<wp.Post>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.none) {
-              return Container();
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) {
-                wp.Post post = snapshot.data[index];
-                /*return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DetailsPage(post)
-                        )
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: <Widget>[
-                            _getPostImage(post),
-                            SizedBox(height: 10,),
-                            Text(
-                              post.title.rendered.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20
-                              ),
-                            ),
-                            SizedBox(height: 15,),
-                            Html(
-                              data: post.excerpt.rendered.toString(),
-                              onLinkTap: (String link) {
-                                _launchUrl(link);
-                              },
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(post.date.toString().replaceAll('T', ' ')),
-                                Text(post.author.name),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-                */
-              },
+        appBar: AppBar(
+          title: Text(""),
+          centerTitle: true,
+          backgroundColor: Colors.orange,
+        ),
+        body: this.isLoading
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : ListView.builder(
+          itemCount: posts.length,
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return Column(
+              children: <Widget>[PostCard(post: posts[index])],
             );
           },
-        ),
-      ),
-    );
+        ));
   }
 }
-
