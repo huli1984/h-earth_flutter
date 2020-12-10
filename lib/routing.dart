@@ -66,17 +66,17 @@ class _DestinationViewState extends State<DestinationView> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('H-arth ${widget.destination.title}'.toUpperCase(), style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold)),
+      /*appBar: AppBar(
+        title: Text('H-earth ${widget.destination.title}'.toUpperCase(), style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold)),
         backgroundColor: mColor,
         toolbarHeight: 32.0,
         centerTitle: false,
-      ),
+      ),*/
       backgroundColor: mColorBack,
       body: Container(
         padding: const EdgeInsets.all(5.0),
         alignment: Alignment.center,
-        child: LandingPage(widget.destination.page_id_value),//TextField(controller: _textController),
+        child: LandingPage(widget.destination.page_id_value, mColor),//TextField(controller: _textController),
       ),
     );
   }

@@ -11,14 +11,16 @@ import 'package:albanianews_flutter/routing.dart';
 import 'package:http/http.dart' as http;
 import 'package:albanianews_flutter/post.dart';
 import 'package:albanianews_flutter/pages.dart';
+import 'package:albanianews_flutter/title_card.dart';
 import 'package:albanianews_flutter/PostCard.dart';
 import 'package:albanianews_flutter/OpenPage.dart';
 
 class LandingPage extends StatefulWidget {
   int number;
-  LandingPage(this.number);
+  var my_color;
+  LandingPage(this.number, this.my_color);
   @override
-  _LandingPageState createState() => _LandingPageState(number);
+  _LandingPageState createState() => _LandingPageState(number, my_color);
 }
 
 class _LandingPageState extends State<LandingPage> {
@@ -29,8 +31,9 @@ class _LandingPageState extends State<LandingPage> {
   List<Post> posts = List();
   List<WPPage> pages = List();
   int pageValues;
+  var my_color;
 
-  _LandingPageState(this.pageValues);
+  _LandingPageState(this.pageValues, this.my_color);
 
   @override
   void initState() {
@@ -83,20 +86,16 @@ class _LandingPageState extends State<LandingPage> {
     double newheight = height - padding.top - padding.bottom;
 
     return Scaffold(
-        /*appBar: AppBar(
-          title: Text(selectedPage.title),
-          centerTitle: true,
-          backgroundColor: Colors.orange,
-        ),*/
         body: this.isLoading
             ? Center(
           child: CircularProgressIndicator(),
         ):  Container(
             height: newheight,
             child: Stack(
-                children: <Widget>[OpenPage(selectedPage)])
-
-    )
+                children: <Widget>[
+                  OpenPage(selectedPage, my_color),
+                ])
+      )
     );
   }
 }
