@@ -3,12 +3,14 @@ import 'package:flutter/rendering.dart';
 import 'package:albanianews_flutter/landingPage.dart';
 
 class Destination {
-  const Destination(this.title, this.icon, this.image_icon, this.color, this.rgbColor);
+  const Destination(this.title, this.icon, this.image_icon, this.color, this.rgbColor, this.page_id_value, this.kind);
   final String title;
   final IconData icon;
   final ImageIcon image_icon;
   final MaterialColor color;
   final Color rgbColor;
+  final int page_id_value;
+  final int kind;
 
 }
 
@@ -26,10 +28,10 @@ const servizi_icon = ImageIcon(
 
 const List<Destination> allDestinations = <Destination>[
 
-  Destination('home', null, home_icon, null, Color.fromARGB(200, 35, 160, 50)),
-  Destination('servizi', null, servizi_icon, null, Color.fromARGB(200, 240, 47, 28)),
-  Destination('AR', Icons.camera, null, Colors.lightGreen, null),
-  Destination('shop', null, cart_icon , Colors.blue, null)
+  Destination('home', null, home_icon, null, Color.fromARGB(200, 35, 160, 50), 3569, 0),
+  Destination('servizi', null, servizi_icon, null, Color.fromARGB(200, 240, 47, 28), 3569, 0),
+  Destination('AR', Icons.camera, null, Colors.lightGreen, null, 4539, 0),
+  Destination('shop', null, cart_icon , Colors.blue, null, 3614, 0)
 ];
 
 class DestinationView extends StatefulWidget {
@@ -72,9 +74,9 @@ class _DestinationViewState extends State<DestinationView> {
       ),
       backgroundColor: mColorBack,
       body: Container(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.all(5.0),
         alignment: Alignment.center,
-        child: LandingPage(),//TextField(controller: _textController),
+        child: LandingPage(widget.destination.page_id_value),//TextField(controller: _textController),
       ),
     );
   }
