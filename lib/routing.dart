@@ -62,7 +62,7 @@ class _DestinationViewState extends State<DestinationView> {
       mColorBack = mColor[100];
     } else {
       mColor = widget.destination.rgbColor;
-      mColorBack = mColor.withAlpha(mColor.alpha - 200);
+      mColorBack = mColor.withAlpha(0);
     }
 
     return Scaffold(
@@ -76,7 +76,7 @@ class _DestinationViewState extends State<DestinationView> {
       body: Container(
         padding: const EdgeInsets.all(5.0),
         alignment: Alignment.center,
-        child: LandingPage(widget.destination.page_id_value, mColor),//TextField(controller: _textController),
+        child: LandingPage(widget.destination.page_id_value, mColor, widget.destination.kind),//TextField(controller: _textController),
       ),
     );
   }

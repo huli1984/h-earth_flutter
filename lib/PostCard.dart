@@ -3,6 +3,7 @@ import 'package:albanianews_flutter/post.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:albanianews_flutter/DetailPost.dart';
+import 'package:flutter_html/style.dart';
 
 class PostCard extends StatelessWidget {
 
@@ -38,6 +39,18 @@ class PostCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Html(
                 data: post.title,
+                style: {
+                  "div": Style(
+                  margin: EdgeInsets.all(16),
+                  border: Border.all(width: 6),
+                  backgroundColor: Colors.grey,
+                  ),
+                  "title": Style(
+                    margin: EdgeInsets.all(16),
+                    border: Border.all(width: 6),
+                    backgroundColor: Colors.grey,
+                  ),
+                }
               ),
             ),
             SizedBox(height: 15,),

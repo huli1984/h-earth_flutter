@@ -14,13 +14,15 @@ import 'package:albanianews_flutter/pages.dart';
 import 'package:albanianews_flutter/title_card.dart';
 import 'package:albanianews_flutter/PostCard.dart';
 import 'package:albanianews_flutter/OpenPage.dart';
+import 'package:animated_card/animated_card.dart';
 
 class LandingPage extends StatefulWidget {
   int number;
   var my_color;
-  LandingPage(this.number, this.my_color);
+  int type;
+  LandingPage(this.number, this.my_color, this.type);
   @override
-  _LandingPageState createState() => _LandingPageState(number, my_color);
+  _LandingPageState createState() => _LandingPageState(number, my_color, type);
 }
 
 class _LandingPageState extends State<LandingPage> {
@@ -32,8 +34,9 @@ class _LandingPageState extends State<LandingPage> {
   List<WPPage> pages = List();
   int pageValues;
   var my_color;
+  int type;
 
-  _LandingPageState(this.pageValues, this.my_color);
+  _LandingPageState(this.pageValues, this.my_color, this.type);
 
   @override
   void initState() {
@@ -85,17 +88,41 @@ class _LandingPageState extends State<LandingPage> {
     var padding = MediaQuery.of(context).padding;
     double newheight = height - padding.top - padding.bottom;
 
-    return Scaffold(
-        body: this.isLoading
-            ? Center(
-          child: CircularProgressIndicator(),
-        ):  Container(
-            height: newheight,
-            child: Stack(
-                children: <Widget>[
-                  OpenPage(selectedPage, my_color),
-                ])
-      )
-    );
+    if (type == 0) {
+      return Scaffold(
+          body: this.isLoading
+              ? Center(
+            child: CircularProgressIndicator(),
+          ):  Container(
+              height: newheight,
+              child: Stack(
+                  children: <Widget>[
+                    OpenPage(selectedPage, my_color),
+                  ])
+        )
+      );
+    } else if (type == 1) {
+      return Scaffold(
+          body: this.isLoading
+              ? Center(
+            child: CircularProgressIndicator(),
+          )
+              : ListView.builder(
+            itemCount: posts.length,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: <Widget>[PostCard(post: posts[index])],
+              );
+            },
+          ));
+    } else if (type == 2) {
+      return Scaffold(
+          body: this.isLoading
+              ? Center(
+            child: CircularProgressIndicator(),
+          )
+              : ListView.builder());
+    }
   }
 }

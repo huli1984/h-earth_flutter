@@ -29,7 +29,11 @@ class OpenPage extends StatelessWidget {
             padding: EdgeInsets.all(1.5),
             child: ListView(
               children: <Widget>[
-                TitleCard(page.title.toString(), my_color),
+                Positioned(
+                  top: 5,
+                  child:
+                  TitleCard(page.title.toString(), my_color),
+                ),
                 SizedBox(height: 12,),
                 _getPostImage(),
                 Row(
